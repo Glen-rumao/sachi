@@ -1,0 +1,257 @@
+{% extends "base.html" %}
+{%load static%}
+{%block start%}
+    <svg style="display: none;">
+        <symbol id="search" viewBox="0 0 24 24">
+          <path d="M10 2a8 8 0 016.32 12.9l5.38 5.38-1.42 1.42-5.38-5.38A8 8 0 1110 2zm0 2a6 6 0 100 12 6 6 0 000-12z"/>
+        </symbol>
+    </svg>
+    <section class="hero-section jarallax d-flex align-items-center justify-content-center padding-medium pb-5" style="background: url(/upload/hero-img.jpg) no-repeat;">
+      <div class="hero-content">
+        <div class="container">
+          <div class="row">
+            <div class="text-center padding-large no-padding-bottom">
+              <h1>Shop</h1>
+              <div class="breadcrumbs">
+                <span class="item">
+                  <a href="index.html">Home ></a>
+                </span>
+                <span class="item">Shop</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="shopify-grid padding-large">
+      <div class="container">
+        <div class="row">
+          <main class="col-md-9">
+            <div class="filter-shop d-flex flex-wrap justify-content-between">
+              <div class="showing-product">
+                <p>Showing 1-9 of 55 results</p>
+              </div>
+              <div class="sort-by">
+                <select id="input-sort" class="form-control" data-filter-sort="" data-filter-order="">
+                  <option value="">Default sorting</option>
+                  <option value="">Name (A - Z)</option>
+                  <option value="">Name (Z - A)</option>
+                  <option value="">Price (Low-High)</option>
+                  <option value="">Price (High-Low)</option>
+                  <option value="">Rating (Highest)</option>
+                  <option value="">Rating (Lowest)</option>
+                  <option value="">Model (A - Z)</option>
+                  <option value="">Model (Z - A)</option>   
+                </select>
+              </div>
+            </div>
+            
+            <div class="row product-content product-store">
+              {%for i in p%}
+              <div class="col-lg-4 col-md-6">
+                <div class="product-card mb-3 position-relative">
+                  <div class="image-holder zoom-effect">
+                    <img src="/upload/{{i.image1}}" alt="product-item" class="img-fluid zoom-in">
+                    <div class="cart-concern position-absolute">
+                      <div class="cart-button">
+                        <a href="{%url 'single_product' i.id%}" class="btn">View Product</a>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card-detail text-center pt-3 pb-2">
+                    <h5 class="card-title fs-3 text-capitalize">
+                      <a href="#">{{i.name}}</a>
+                    </h5>
+                    <span class="item-price text-primary fs-3 fw-light">₹{{i.price}}</span>
+                  </div>
+                </div>
+              </div>
+             
+            {% endfor %}
+            <nav class="navigation paging-navigation text-center padding-medium" role="navigation">
+              <div class="pagination loop-pagination d-flex justify-content-center align-items-center">
+                <a href="#" class="d-flex pe-2">
+                  <svg width="24" height="24"><use xlink:href="#angle-left"></use></svg>
+                </a>
+                <span aria-current="page" class="page-numbers current pe-3">1</span>
+                <a class="page-numbers pe-3" href="#">2</a>
+                <a class="page-numbers pe-3" href="#">3</a>
+                <a class="page-numbers pe-3" href="#">4</a>
+                <a class="page-numbers" href="#">5</a>
+                <a href="#" class="d-flex ps-2">
+                  <svg width="24" height="24"><use xlink:href="#angle-right"></use></svg>
+                </a>
+              </div>
+            </nav>
+          </main>
+          <aside class="col-md-3">
+            <div class="sidebar">
+              <div class="widget-menu">
+                <div class="widget-search-bar">
+                  <form role="search" method="POST" class="position-relative d-flex justify-content-between align-items-center border-bottom border-dark py-1">
+                    {%csrf_token%}
+                    <input class="search-field" placeholder="Search" type="search" name="search">
+                    <div class="search-icon position-absolute end-0">
+                      <button type="submit">Search</button>
+                    </div>
+                  </form>
+                </div> 
+              </div>
+              <div class="widget-product-categories pt-5">
+                <h5 class="widget-title text-decoration-underline text-uppercase">Categories</h5>
+                <ul class="product-categories sidebar-list list-unstyled">
+                  <li class="cat-item">
+                    <a href="{%url 'shop' %}">All</a>
+                  </li>
+                  {%for a in c%}
+                  <li class="cat-item">
+                    <a href="{%url 'shop_category' a.id%}">{{a.name}}</a>
+                  </li>
+                  {%endfor%}
+                </ul>
+              </div>
+              <div class="widget-product-tags pt-3">
+                <h5 class="widget-title text-decoration-underline text-uppercase">Tags</h5>
+                <ul class="product-tags sidebar-list list-unstyled">
+                  {%for q in t%}
+                  <li class="tags-item">
+                    <a href="{%url 'shop_category' q.id%}">{{q.name}}</a>
+                  </li>
+                  {%endfor%}
+                </ul>
+              </div>
+              <div class="widget-price-filter pt-3">
+                <h5 class="widget-title text-decoration-underline text-uppercase">Filter By Price</h5>
+                <ul class="product-tags sidebar-list list-unstyled">
+                  <li class="tags-item">
+                    <a href="">Less than $100</a>
+                  </li>
+                  <li class="tags-item">
+                    <a href="">$100 - $200</a>
+                  </li>
+                  <li class="tags-item">
+                    <a href="">$200 - $300</a>
+                  </li>
+                  <li class="tags-item">
+                    <a href="">$300 - $400</a>
+                  </li>
+                  <li class="tags-item">
+                    <a href="">$400 - $500</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </div>
+    <footer id="footer" class="overflow-hidden padding-xlarge pb-0">
+      <div class="container">
+        <div class="row">
+          <div class="footer-top-area pb-5">
+            <div class="row d-flex flex-wrap justify-content-between">
+              <div class="col-lg-3 col-sm-6 pb-3" data-aos="fade" data-aos-easing="ease-in" data-aos-duration="1000" data-aos-once="true">
+                <div class="footer-menu">
+                  <img src="images/main-logo.png" alt="logo" class="mb-2">
+                  <p>Nunc tristique facilisis consectetur vivamus ut porta porta aliquam vitae vehicula leo nullam urna lectus.</p>
+                </div>
+              </div>
+              <div class="col-lg-2 col-sm-6 pb-3" data-aos="fade" data-aos-easing="ease-in" data-aos-duration="1200" data-aos-once="true">
+                <div class="footer-menu">
+                  <h4 class="widget-title pb-2">Quick Links</h4>
+                  <ul class="menu-list list-unstyled">
+                    <li class="menu-item pb-2">
+                      <a href="about.html">About</a>
+                    </li>
+                    <li class="menu-item pb-2">
+                      <a href="shop.html">Shop</a>
+                    </li>
+                    <li class="menu-item pb-2">
+                      <a href="contact.html">Contact</a>
+                    </li>
+                    <li class="menu-item pb-2">
+                      <a href="login.html">Account</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-3 col-sm-6 pb-3" data-aos="fade" data-aos-easing="ease-in" data-aos-duration="1400" data-aos-once="true">
+                <div class="footer-menu contact-item">
+                  <h4 class="widget-title pb-2">Contact info</h4>
+                  <ul class="menu-list list-unstyled">
+                    <li class="menu-item pb-2">
+                      <a href="#">Tea Berry, Marinette, USA</a>
+                    </li>
+                    <li class="menu-item pb-2">
+                      <a href="#">+55 111 222 333 44</a>
+                    </li>
+                    <li class="menu-item pb-2">
+                      <a href="mailto:">yourinfo@gmail.com</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-3 col-sm-6 pb-3" data-aos="fade" data-aos-easing="ease-in" data-aos-duration="1600" data-aos-once="true">
+                <div class="footer-menu">
+                  <h4 class="widget-title pb-2">Social info</h4>
+                  <p>You can follow us on our social platforms to get updates.</p>
+                  <div class="social-links">
+                    <ul class="d-flex list-unstyled">
+                      <li>
+                        <a href="#">
+                          <svg class="facebook">
+                            <use xlink:href="#facebook">
+                          </svg>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#">
+                          <svg class="instagram">
+                            <use xlink:href="#instagram">
+                          </svg>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#">
+                          <svg class="twitter">
+                            <use xlink:href="#twitter">
+                          </svg>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#">
+                          <svg class="linkedin">
+                            <use xlink:href="#linkedin">
+                          </svg>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#">
+                          <svg class="youtube">
+                            <use xlink:href="#youtube">
+                          </svg>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr>
+      </div>
+    </footer>
+    <div id="footer-bottom">
+      <div class="container">
+        <div class="row d-flex flex-wrap justify-content-between">
+          <div class="col-12">
+            <div class="copyright">
+              <p>© Copyright 2023 Vaso. Design by <a href="https://templatesjungle.com/" target="_blank"><b>TemplatesJungle</b></a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+{%endblock%}
